@@ -1,0 +1,12 @@
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable import/no-named-as-default */
+import { configureStore } from "@reduxjs/toolkit";
+import authSlice from "./features/auth/authSlice";
+import postSlice from "./features/post/postSlice";
+
+export const store = configureStore({
+  reducer: {
+    auth: authSlice,
+    post: postSlice,
+  },
+});
