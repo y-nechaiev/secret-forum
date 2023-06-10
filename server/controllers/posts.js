@@ -47,7 +47,7 @@ export const createPost = async (req, res) => {
 
         res.json(newPostWithoutImage)
     } catch (error) {
-        res.json({ message: 'Что-то пошло не так.' })
+        res.json({ message: 'Something went wrong.' })
     }
 }
 
@@ -58,12 +58,12 @@ export const getAllPosts = async (req, res) => {
         const popularPosts = await Post.find().limit(5).sort('-views')
 
         if (!posts) {
-            return res.json({ message: 'На данный момент тут пусто!' })
+            return res.json({ message: "It's empty at the moment!" })
         }
 
         res.json({posts, popularPosts})
     } catch (error) {
-        res.json({ message: 'Что-то пошло не так.' })
+        res.json({ message: 'Something went wrong.' })
     }
 }
 
@@ -75,6 +75,6 @@ export const getById = async (req, res) => {
         })
         res.json(post)
     } catch (error) {
-        res.json({ message: 'Что-то пошло не так.' })
+        res.json({ message: 'Something went wrong.' })
     }
 }

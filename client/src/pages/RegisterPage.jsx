@@ -40,7 +40,7 @@ function RegisterPage() {
       onSubmit={(e) => e.preventDefault()}
       className="w-1/4 h-60 mx-auto mt-40"
     >
-      <h1 className="text-lg text-white text-center">Регистрация</h1>
+      <h1 className="text-lg text-white text-center">Registration</h1>
       <label className="text-xs text-gray-400">
         Username:
         <input
@@ -69,13 +69,13 @@ function RegisterPage() {
           onClick={handleSubmit}
           className="flex justify-center items-center text-xs bg-gray-600 text-white rounded-sm py-2 px-4"
         >
-          Подтвердить
+          Confirm
         </button>
         <Link
           to="/login"
           className="flex justify-center items-center text-xs text-white"
         >
-          Уже зарегистрированы ?
+          Already registered?
         </Link>
       </div>
     </form>

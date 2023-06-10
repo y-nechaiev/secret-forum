@@ -42,7 +42,3 @@ async function start() {
 }
 
 start()
-
-// app.listen(5000, () => {
-//     console.log("Server started on localhost 5000")
-// })s

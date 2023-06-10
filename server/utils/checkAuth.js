@@ -13,12 +13,12 @@ export const chackAuth = (request, response, next) => {
 
         } catch (error) {
             return response.json({
-                massage: 'Нет доступа!'
+                massage: 'No access!'
             })
         }
     } else {
         return response.json({
-            massage: 'Нет доступа!'
+            massage: 'No access!'
         })
     }
 

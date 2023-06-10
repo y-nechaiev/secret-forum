@@ -16,7 +16,7 @@ function MainPage() {
   if (!posts.length) {
     return (
       <div className="text-xl text-center text-white py-10">
-        Постов не существует.
+        Posts do not exist.
       </div>
     );
   }
@@ -30,7 +30,7 @@ function MainPage() {
           ))}
         </div>
         <div className="basis-1/5">
-          <div className="text-xs uppercase text-white">Популярное:</div>
+          <div className="text-xs uppercase text-white">Popular:</div>
 
           {popularPosts?.map((post, idx) => (
             <PopularPosts key={idx} post={post} />

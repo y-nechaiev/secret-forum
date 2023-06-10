@@ -11,7 +11,7 @@ export const register = async (request, response) => {
 
     if (isUsed) {
       return response.json({
-        message: "Данное имя пользователя уже занято!",
+        message: "This username is already taken!",
       });
     }
 
@@ -32,12 +32,12 @@ export const register = async (request, response) => {
     response.json({
       newUser,
       token,
-      message: "Регистрация прошла успешно!",
+      message: "Registration completed successfully!",
     });
   } catch (error) {
     response,
       json({
-        message: "Ошибка при создании нового пользователя!",
+        message: "Error when creating a new user!",
       });
   }
 };
@@ -52,7 +52,7 @@ export const login = async (request, response) => {
       return (
         response,
         json({
-          message: "Пользователь не найден!",
+          message: "User is not found!",
         })
       );
     }
@@ -63,7 +63,7 @@ export const login = async (request, response) => {
       return (
         response,
         json({
-          message: "Указан неправильный пароль!",
+          message: "Wrong password specified!",
         })
       );
     }
@@ -75,11 +75,11 @@ export const login = async (request, response) => {
     response.json({
       token,
       user,
-      message: "Вы успешно авторизированы!",
+      message: "You are successfully logged in!",
     });
   } catch (error) {
     response.json({
-      message: "Указано неверное имя пользователя или пароль!",
+      message: "Invalid username or password specified!",
     });
   }
 };
@@ -93,7 +93,7 @@ export const getme = async (request, response) => {
       return (
         response,
         json({
-          message: "Пользователь не найден!",
+          message: "User is not found!",
         })
       );
     }
@@ -108,7 +108,7 @@ export const getme = async (request, response) => {
     });
   } catch (error) {
     response.json({
-      message: "Нет доступа!",
+      message: "No access!",
     });
   }
 };

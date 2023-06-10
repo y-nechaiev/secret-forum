@@ -15,7 +15,7 @@ function NavBar() {
   const logoutHandler = () => {
     dispatch(logout());
     window.localStorage.removeItem("token");
-    toast("Вы вышли из системы!");
+    toast("You are logged out!");
   };
 
   return (
@@ -33,7 +33,7 @@ function NavBar() {
               className="text-xs text-gray-400 hover:text-white"
               style={({ isActive }) => (isActive ? activeStyles : undefined)}
             >
-              Главная
+              Main
             </NavLink>
           </li>
           <li>
@@ -43,7 +43,7 @@ function NavBar() {
               className="text-xs text-gray-400 hover:text-white"
               style={({ isActive }) => (isActive ? activeStyles : undefined)}
             >
-              Мои Посты
+              My Posts
             </NavLink>
           </li>
           <li>
@@ -53,7 +53,7 @@ function NavBar() {
               className="text-xs text-gray-400 hover:text-white"
               style={({ isActive }) => (isActive ? activeStyles : undefined)}
             >
-              Добавить Пост
+              Add Post
             </NavLink>
           </li>
         </ul>
@@ -66,14 +66,14 @@ function NavBar() {
             type="button"
             onClick={logoutHandler}
           >
-            Выйти
+            Sign out
           </button>
         ) : (
           <Link
             to="/login"
             className="bg-gray-600 text-xs text-white rounded-sm px-4 py-2"
           >
-            Войти
+            Sign in
           </Link>
         )}
       </div>
