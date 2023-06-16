@@ -2,6 +2,9 @@
 node_modules/
 dist/
 logs/
+/data/db
+/coverage
+/build
 
 # Files
 .env
@@ -10,14 +13,16 @@ logs/
 .env.development.local
 .env.test.local
 .env.production.local
-
-#uploads_content
-uploads/*
-
-# MongoDB files
-/data/db
 *.log
-
-# Anoter temporary files
 *.tmp
 .DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+#uploads_content
+uploads/
+
+# dependencies
+/.pnp
+.pnp.js
