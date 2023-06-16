@@ -1,9 +1,9 @@
-# Папки
+# Folders
 node_modules/
 dist/
 logs/
 
-# Файлы
+# Files
 .env
 .env.*
 .env.local
@@ -11,10 +11,13 @@ logs/
 .env.test.local
 .env.production.local
 
-# MongoDB файлы
+#uploads_content
+uploads/*
+
+# MongoDB files
 /data/db
 *.log
 
-# Остальные временные файлы и папки
+# Anoter temporary files
 *.tmp
 .DS_Store

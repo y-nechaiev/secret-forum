@@ -13,13 +13,13 @@ export function AddPostPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     try {
       const data = new FormData();
       data.append("title", title);
       data.append("text", text);
       data.append("image", image);
-      dispatch(createPost(data));
+      await dispatch(createPost(data));
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -52,7 +52,7 @@ export function AddPostPage() {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Post title:"
+          placeholder="Post title"
           className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700"
         />
       </label>
@@ -62,7 +62,7 @@ export function AddPostPage() {
         <textarea
           onChange={(e) => setText(e.target.value)}
           value={text}
-          placeholder="Post text:"
+          placeholder="Post text"
           className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none h-40 placeholder:text-gray-700"
         />
       </label>

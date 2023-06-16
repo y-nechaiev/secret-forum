@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
 /* eslint-disable consistent-return */
 /* eslint-disable no-param-reassign */
@@ -26,6 +27,15 @@ export const createPost = createAsyncThunk(
 export const getAllPosts = createAsyncThunk("post/getAllPosts", async () => {
   try {
     const { data } = await axios.get("/posts");
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+export const deletePost = createAsyncThunk("post/deletePost", async (id) => {
+  try {
+    const { data } = await axios.delete(`/posts/${id}`, id);
     return data;
   } catch (error) {
     console.log(error);
@@ -61,6 +71,18 @@ export const postSlice = createSlice({
       state.loading = false;
     },
     // Delete Post
+    [deletePost.pending]: (state) => {
+      state.loading = true;
+    },
+    [deletePost.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.posts = state.posts.filter(
+        (post) => post._id !== action.payload._id
+      );
+    },
+    [deletePost.rejected]: (state) => {
+      state.loading = false;
+    },
   },
 });
 
