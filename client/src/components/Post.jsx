@@ -68,16 +68,11 @@ Post.propTypes = {
     _id: PropTypes.string.isRequired,
     imgUrl: PropTypes.string,
     username: PropTypes.string.isRequired,
-    createdAt: PropTypes.instanceOf(Date).isRequired,
+    createdAt: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     views: PropTypes.number.isRequired,
-    comments: PropTypes.arrayOf(
-      PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        comment: PropTypes.string.isRequired,
-      })
-    ),
+    comments: PropTypes.arrayOf(Object),
   }),
 };
 

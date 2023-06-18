@@ -6,7 +6,7 @@ import axios from "../../../utils/axios";
 const initialState = {
   user: null,
   token: null,
-  isLoading: false,
+  loading: false,
   status: null,
 };
 
@@ -62,55 +62,55 @@ export const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
-      state.isLoading = false;
+      state.loading = false;
       state.status = null;
     },
   },
   extraReducers: {
     // Register user
     [registerUser.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
       state.status = null;
     },
     [registerUser.fulfilled]: (state, action) => {
-      state.isLoading = false;
+      state.loading = false;
       state.status = action.payload.message;
       state.user = action.payload.user;
       state.token = action.payload.token;
     },
     [registerUser.rejectWithValue]: (state, action) => {
       state.status = action.payload.message;
-      state.isLoading = false;
+      state.loading = false;
     },
     // Login user
     [loginUser.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
       state.status = null;
     },
     [loginUser.fulfilled]: (state, action) => {
-      state.isLoading = false;
+      state.loading = false;
       state.status = action.payload.message;
       state.user = action.payload.user;
       state.token = action.payload.token;
     },
     [loginUser.rejectWithValue]: (state, action) => {
       state.status = action.payload.message;
-      state.isLoading = false;
+      state.loading = false;
     },
     // Auth check
     [getMe.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
       state.status = null;
     },
     [getMe.fulfilled]: (state, action) => {
-      state.isLoading = false;
+      state.loading = false;
       state.status = null;
       state.user = action.payload?.user;
       state.token = action.payload?.token;
     },
     [getMe.rejectWithValue]: (state, action) => {
       state.status = action.payload.message;
-      state.isLoading = false;
+      state.loading = false;
     },
   },
 });
