@@ -1,8 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-unused-vars */
-/* eslint-disable consistent-return */
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-console */
+/* eslint-disable consistent-return */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../../utils/axios";
 
@@ -33,7 +31,7 @@ export const getAllPosts = createAsyncThunk("post/getAllPosts", async () => {
   }
 });
 
-export const deletePost = createAsyncThunk("post/deletePost", async (id) => {
+export const removePost = createAsyncThunk("post/removePost", async (id) => {
   try {
     const { data } = await axios.delete(`/posts/${id}`, id);
     return data;
@@ -41,6 +39,18 @@ export const deletePost = createAsyncThunk("post/deletePost", async (id) => {
     console.log(error);
   }
 });
+
+export const updatePost = createAsyncThunk(
+  "post/updatePost",
+  async (updatedPost) => {
+    try {
+      const { data } = await axios.put(`/posts/${updatedPost.id}`, updatedPost);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 export const postSlice = createSlice({
   name: "post",
@@ -71,16 +81,30 @@ export const postSlice = createSlice({
       state.loading = false;
     },
     // Delete Post
-    [deletePost.pending]: (state) => {
+    [removePost.pending]: (state) => {
       state.loading = true;
     },
-    [deletePost.fulfilled]: (state, action) => {
+    [removePost.fulfilled]: (state, action) => {
       state.loading = false;
       state.posts = state.posts.filter(
         (post) => post._id !== action.payload._id
       );
     },
-    [deletePost.rejected]: (state) => {
+    [removePost.rejected]: (state) => {
+      state.loading = false;
+    },
+    // Update Post
+    [updatePost.pending]: (state) => {
+      state.loading = true;
+    },
+    [updatePost.fulfilled]: (state, action) => {
+      state.loading = false;
+      const index = state.posts.findIndex(
+        (post) => post._id === action.payload._id
+      );
+      state.posts[index] = action.payload;
+    },
+    [updatePost.rejected]: (state) => {
       state.loading = false;
     },
   },

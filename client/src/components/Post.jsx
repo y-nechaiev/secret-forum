@@ -1,15 +1,17 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
-/* eslint-disable import/no-extraneous-dependencies */
 import React from "react";
 import { AiFillEye, AiOutlineMessage } from "react-icons/ai";
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
 
-function PostItem({ post }) {
+function Post({ post }) {
   if (!post) {
     return (
-      <div className="text-xl text-center text-white py-10">Loading...</div>
+      <div className="text-xs text-white opacity-50">
+        This post has been removed!
+      </div>
     );
   }
   return (
@@ -56,4 +58,4 @@ function PostItem({ post }) {
   );
 }
 
-export default PostItem;
+export default Post;

@@ -1,11 +1,11 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { checkisAuth, logout } from "../redux/features/auth/authSlice";
+import { checkIsAuth, logout } from "../redux/features/auth/authSlice";
 
-function NavBar() {
-  const isAuth = useSelector(checkisAuth);
+function Navbar() {
+  const isAuth = useSelector(checkIsAuth);
   const dispatch = useDispatch();
 
   const activeStyles = {
@@ -15,13 +15,13 @@ function NavBar() {
   const logoutHandler = () => {
     dispatch(logout());
     window.localStorage.removeItem("token");
-    toast("You are logged out!");
+    toast("You are logged out");
   };
 
   return (
     <div className="flex py-4 justify-between items-center">
-      <span className="flex justify-center items-center px-4 py-2 bg-gray-600 text-xs text-white rounded-sm">
-        E
+      <span className="flex justify-center items-center w-6 h-6 bg-gray-600 text-xs text-white rounded-sm">
+        P
       </span>
 
       {isAuth && (
@@ -39,7 +39,7 @@ function NavBar() {
           <li>
             <NavLink
               to="/posts"
-              href="/posts"
+              href="/"
               className="text-xs text-gray-400 hover:text-white"
               style={({ isActive }) => (isActive ? activeStyles : undefined)}
             >
@@ -49,7 +49,7 @@ function NavBar() {
           <li>
             <NavLink
               to="/new"
-              href="/new"
+              href="/"
               className="text-xs text-gray-400 hover:text-white"
               style={({ isActive }) => (isActive ? activeStyles : undefined)}
             >
@@ -61,24 +61,15 @@ function NavBar() {
 
       <div className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm px-4 py-2">
         {isAuth ? (
-          <button
-            className="bg-gray-600 text-xs text-white rounded-sm px-4 py-2"
-            type="button"
-            onClick={logoutHandler}
-          >
+          <button onClick={logoutHandler} type="button">
             Sign out
           </button>
         ) : (
-          <Link
-            to="/login"
-            className="bg-gray-600 text-xs text-white rounded-sm px-4 py-2"
-          >
-            Sign in
-          </Link>
+          <Link to="/login"> Sign in </Link>
         )}
       </div>
     </div>
   );
 }
 
-export default NavBar;
+export default Navbar;

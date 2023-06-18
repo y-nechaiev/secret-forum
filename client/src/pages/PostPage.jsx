@@ -1,9 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/no-extraneous-dependencies */
-import React, { useCallback, useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   AiFillEye,
   AiOutlineMessage,
@@ -11,45 +8,80 @@ import {
   AiFillDelete,
 } from "react-icons/ai";
 import Moment from "react-moment";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import axios from "../utils/axios";
-import { deletePost } from "../redux/features/post/postSlice";
+import { removePost } from "../redux/features/post/postSlice";
+import {
+  createComment,
+  getPostComments,
+} from "../redux/features/comment/commentSlice";
+import Comment from "../components/Comment";
 
 function PostPage() {
-  const [post, setActivePost] = useState({});
-  const params = useParams();
+  const [post, setPost] = useState({});
+  const [comment, setComment] = useState("");
+
   const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  const { comments } = useSelector((state) => state.comment);
   const navigate = useNavigate();
+  const params = useParams();
+  const dispatch = useDispatch();
+
+  const removePostHandler = () => {
+    try {
+      dispatch(removePost(params.id));
+      toast("The post has been deleted");
+      navigate("/posts");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = () => {
+    try {
+      const postId = params.id;
+      dispatch(createComment({ postId, comment }));
+      toast("The post comment has been added");
+      setComment("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchComments = useCallback(async () => {
+    try {
+      dispatch(getPostComments(params.id));
+    } catch (error) {
+      console.log(error);
+    }
+  }, [params.id, dispatch]);
 
   const fetchPost = useCallback(async () => {
     const { data } = await axios.get(`/posts/${params.id}`);
-    setActivePost(data);
+    setPost(data);
   }, [params.id]);
 
   useEffect(() => {
     fetchPost();
   }, [fetchPost]);
 
-  const removePostHandler = () => {
-    try {
-      dispatch(deletePost(params.id));
-      toast("Пост был удален");
-      navigate("/posts");
-      console.log(post);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    fetchComments();
+  }, [fetchComments]);
 
   return (
     <div>
       <button
-        className="flex justify-center items-center bg-gray-600 text-white text-sm py-2 px-4"
+        className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4"
         type="button"
       >
-        <Link to="/">Back</Link>
+        <Link className="flex" to="/">
+          Back
+        </Link>
       </button>
+
       <div className="flex gap-10 py-8">
         <div className="w-2/3">
           <div className="flex flex-col basis-1/4 flex-grow">
@@ -67,6 +99,7 @@ function PostPage() {
               )}
             </div>
           </div>
+
           <div className="flex justify-between items-center pt-2">
             <div className="text-xs text-white opacity-50">{post.username}</div>
             <div className="text-xs text-white opacity-50">
@@ -75,41 +108,66 @@ function PostPage() {
           </div>
           <div className="text-white text-xl">{post.title}</div>
           <p className="text-white opacity-60 text-xs pt-4">{post.text}</p>
-          <div className="flex gap-3 items-center mt-2">
-            <button
-              className="flex items-center justify-center gap-2 text-xs text-white opacity-50"
-              type="button"
-            >
-              <AiFillEye /> <span>{post.views}</span>
-            </button>
-            <button
-              className="flex items-center justify-center gap-2 text-xs text-white opacity-50"
-              type="button"
-            >
-              <AiOutlineMessage /> <span>{post.comments?.length || 0}</span>
-            </button>
-          </div>
-          {user?._id === post.author && (
+
+          <div className="flex gap-3 items-center mt-2 justify-between">
             <div className="flex gap-3 mt-4">
               <button
-                className="flex items-center justify-center gap-2 text-white opacity-50"
+                className="flex items-center justify-center gap-2 text-xs text-white opacity-50"
                 type="button"
               >
-                <Link to={`/${params.id}/edit`}>
-                  <AiTwotoneEdit />
-                </Link>
+                <AiFillEye /> <span>{post.views}</span>
               </button>
               <button
-                onClick={removePostHandler}
-                className="flex items-center justify-center gap-2  text-white opacity-50"
+                className="flex items-center justify-center gap-2 text-xs text-white opacity-50"
                 type="button"
               >
-                <AiFillDelete />
+                <AiOutlineMessage /> <span>{post.comments?.length || 0} </span>
               </button>
             </div>
-          )}
+
+            {user?._id === post.author && (
+              <div className="flex gap-3 mt-4">
+                <button
+                  className="flex items-center justify-center gap-2 text-white opacity-50"
+                  type="button"
+                >
+                  <Link to={`/${params.id}/edit`}>
+                    <AiTwotoneEdit />
+                  </Link>
+                </button>
+                <button
+                  onClick={removePostHandler}
+                  className="flex items-center justify-center gap-2  text-white opacity-50"
+                  type="button"
+                >
+                  <AiFillDelete />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-        <div className="w-1/3">COMMENTS</div>
+        <div className="w-1/3 p-8 bg-gray-700 flex flex-col gap-2 rounded-sm">
+          <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
+            <input
+              type="text"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Comment"
+              className="text-black w-full rounded-sm bg-gray-400 border p-2 text-xs outline-none placeholder:text-gray-700"
+            />
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4"
+            >
+              Send
+            </button>
+          </form>
+
+          {comments?.map((cmt) => (
+            <Comment key={cmt._id} cmt={cmt} />
+          ))}
+        </div>
       </div>
     </div>
   );

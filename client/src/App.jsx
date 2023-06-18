@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import React, { useEffect } from "react";
-import Layout from "./components/Layout";
+import Container from "./components/Container";
 
 import MainPage from "./pages/MainPage";
 import PostsPage from "./pages/PostsPage";
@@ -23,7 +23,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Layout>
+    <Container>
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="posts" element={<PostsPage />} />
@@ -35,7 +35,7 @@ function App() {
       </Routes>
 
       <ToastContainer position="bottom-right" />
-    </Layout>
+    </Container>
   );
 }
 

@@ -1,27 +1,44 @@
-import { Router } from "express";
-import { chackAuth } from "../utils/checkAuth.js";
-import { createPost, getAllPosts, getById, getMyPosts, deletePost } from "../controllers/posts.js";
+/* eslint-disable import/extensions */
+import { Router } from 'express';
+import {
+  createPost,
+  getAll,
+  getById,
+  getMyPosts,
+  removePost,
+  updatePost,
+  getPostComments,
+} from '../controllers/posts.js';
+import { checkAuth } from '../utils/checkAuth.js';
 
 const router = new Router();
 
 // Create Post
 // http://localhost:5000/api/posts
-router.post("/", chackAuth, createPost);
+router.post('/', checkAuth, createPost);
 
-// Get Posts
+// Get All Posts
 // http://localhost:5000/api/posts
-router.get('/', getAllPosts)
+router.get('/', getAll);
 
 // Get Post By Id
 // http://localhost:5000/api/posts/:id
-router.get('/:id', getById)
+router.get('/:id', getById);
 
-// Get User Posts
+// Get My Posts
 // http://localhost:5000/api/posts/user/me
-router.get('/user/me', chackAuth, getMyPosts)
+router.get('/user/me', checkAuth, getMyPosts);
 
-// Get Post and Delete
+// Remove Post
 // http://localhost:5000/api/posts/:id
-router.delete('/:id', chackAuth, deletePost)
+router.delete('/:id', checkAuth, removePost);
+
+// Update Post
+// http://localhost:5000/api/posts/:id
+router.put('/:id', checkAuth, updatePost);
+
+// Get Post Comments
+// http://localhost:5000/api/posts/comments/:id
+router.get('/comments/:id', getPostComments);
 
 export default router;

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from "react";
-import PostItem from "../components/PostItem";
+import Post from "../components/Post";
 import axios from "../utils/axios";
 
 function PostsPage() {
@@ -17,17 +17,13 @@ function PostsPage() {
 
   useEffect(() => {
     fetchMyPosts();
-  }, [posts]);
+  }, []);
 
   return (
     <div className="w-1/2 mx-auto py-10 flex flex-col gap-10">
-      {posts.length === 0 ? (
-        <div className="text-xl text-center text-white py-10">
-          You dont have any post...
-        </div>
-      ) : (
-        posts.map((post, idx) => <PostItem post={post} key={idx} />)
-      )}
+      {posts?.map((post, idx) => (
+        <Post post={post} key={idx} />
+      ))}
     </div>
   );
 }

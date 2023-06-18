@@ -1,17 +1,20 @@
-import bcrypt from "bcryptjs";
-import User from "../models/User.js";
-import jwt from "jsonwebtoken";
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable consistent-return */
+/* eslint-disable import/extensions */
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
 
-// Register User
-export const register = async (request, response) => {
+// Register user
+export const register = async (req, res) => {
   try {
-    const { username, password } = request.body;
+    const { username, password } = req.body;
 
     const isUsed = await User.findOne({ username });
 
     if (isUsed) {
-      return response.json({
-        message: "This username is already taken!",
+      return res.json({
+        message: 'This username is already taken.',
       });
     }
 
@@ -23,92 +26,88 @@ export const register = async (request, response) => {
       password: hash,
     });
 
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "30d",
-    });
+    const token = jwt.sign(
+      {
+        id: newUser._id,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '30d' },
+    );
 
     await newUser.save();
 
-    response.json({
+    res.json({
       newUser,
       token,
-      message: "Registration completed successfully!",
+      message: 'Registration completed successfully.',
     });
   } catch (error) {
-    response,
-      json({
-        message: "Error when creating a new user!",
-      });
+    res.json({ message: 'Error creating user.' });
   }
 };
 
-// Login User
-export const login = async (request, response) => {
+// Login user
+export const login = async (req, res) => {
   try {
-    const { username, password } = request.body;
+    const { username, password } = req.body;
     const user = await User.findOne({ username });
 
     if (!user) {
-      return (
-        response,
-        json({
-          message: "User is not found!",
-        })
-      );
+      return res.json({
+        message: 'This user does not exist.',
+      });
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
-      return (
-        response,
-        json({
-          message: "Wrong password specified!",
-        })
-      );
+      return res.json({
+        message: 'Incorrect password.',
+      });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "30d",
-    });
+    const token = jwt.sign(
+      {
+        id: user._id,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '30d' },
+    );
 
-    response.json({
+    res.json({
       token,
       user,
-      message: "You are successfully logged in!",
+      message: 'You are logged in.',
     });
   } catch (error) {
-    response.json({
-      message: "Invalid username or password specified!",
-    });
+    res.json({ message: 'Authorization error.' });
   }
 };
 
 // Get Me
-export const getme = async (request, response) => {
+export const getMe = async (req, res) => {
   try {
-    const user = await User.findById(request.userId);
+    const user = await User.findById(req.userId);
 
     if (!user) {
-      return (
-        response,
-        json({
-          message: "User is not found!",
-        })
-      );
+      return res.json({
+        message: 'This user does not exist.',
+      });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "30d",
-    });
+    const token = jwt.sign(
+      {
+        id: user._id,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '30d' },
+    );
 
-    response.json({
+    res.json({
       user,
       token,
     });
   } catch (error) {
-    response.json({
-      message: "No access!",
-    });
+    res.json({ message: 'No access.' });
   }
 };

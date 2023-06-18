@@ -1,15 +1,14 @@
 /* eslint-disable react/prop-types */
 import React from "react";
+import Navbar from "./Navbar";
 
-import NavBar from "./NavBar";
-
-function Layout({ children }) {
+function Container({ children }) {
   return (
     <div className="container mx-auto">
-      <NavBar />
+      <Navbar />
       {children}
     </div>
   );
 }
 
-export default Layout;
+export default Container;

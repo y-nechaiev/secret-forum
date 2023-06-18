@@ -1,48 +1,38 @@
-/* eslint-disable no-console */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { checkisAuth, loginUser } from "../redux/features/auth/authSlice";
+import { checkIsAuth, loginUser } from "../redux/features/auth/authSlice";
 
 function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const { status } = useSelector((state) => state.auth);
-  const isAuth = useSelector(checkisAuth);
-
+  const isAuth = useSelector(checkIsAuth);
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (status) {
-      toast(status);
-    }
-    if (isAuth) {
-      navigate("/");
-    }
+    if (status) toast(status);
+    if (isAuth) navigate("/");
   }, [status, isAuth, navigate]);
 
   const handleSubmit = () => {
     try {
       dispatch(loginUser({ username, password }));
-      setPassword("");
-      setUsername("");
+      toast("Successful authorization");
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <form
       onSubmit={(e) => e.preventDefault()}
       className="w-1/4 h-60 mx-auto mt-40"
     >
       <h1 className="text-lg text-white text-center">Authorization</h1>
-      <label className="text-xs text-gray-400">
+      <label className="text-xs text-gray-400" htmlFor="username">
         Username:
         <input
           type="text"
@@ -53,7 +43,7 @@ function LoginPage() {
         />
       </label>
 
-      <label className="text-xs text-gray-400">
+      <label className="text-xs text-gray-400" htmlFor="password">
         Password:
         <input
           type="password"
@@ -76,7 +66,7 @@ function LoginPage() {
           to="/register"
           className="flex justify-center items-center text-xs text-white"
         >
-          Do not have an account?
+          Dont have an account?
         </Link>
       </div>
     </form>

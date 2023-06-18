@@ -1,28 +1,23 @@
-/* eslint-disable no-console */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { checkisAuth, registerUser } from "../redux/features/auth/authSlice";
+import { registerUser, checkIsAuth } from "../redux/features/auth/authSlice";
 
 function RegisterPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const { status } = useSelector((state) => state.auth);
-  const isAuth = useSelector(checkisAuth);
+  const isAuth = useSelector(checkIsAuth);
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (status) {
       toast(status);
     }
-    if (isAuth) {
-      navigate("/");
-    }
+    if (isAuth) navigate("/");
   }, [status, isAuth, navigate]);
 
   const handleSubmit = () => {
@@ -41,7 +36,7 @@ function RegisterPage() {
       className="w-1/4 h-60 mx-auto mt-40"
     >
       <h1 className="text-lg text-white text-center">Registration</h1>
-      <label className="text-xs text-gray-400">
+      <label className="text-xs text-gray-400" htmlFor="username">
         Username:
         <input
           type="text"
@@ -52,7 +47,7 @@ function RegisterPage() {
         />
       </label>
 
-      <label className="text-xs text-gray-400">
+      <label className="text-xs text-gray-400" htmlFor="password">
         Password:
         <input
           type="password"

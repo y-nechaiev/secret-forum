@@ -5,6 +5,7 @@ logs/
 /data/db
 /coverage
 /build
+.vscode/
 
 # Files
 .env
@@ -16,12 +17,13 @@ logs/
 *.log
 *.tmp
 .DS_Store
+./.DS_Store
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
 #uploads_content
-uploads/
+/server/uploads/*
 
 # dependencies
 /.pnp
