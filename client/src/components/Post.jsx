@@ -1,9 +1,9 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable react/prop-types */
 import React from "react";
 import { AiFillEye, AiOutlineMessage } from "react-icons/ai";
 import Moment from "react-moment";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 function Post({ post }) {
@@ -14,11 +14,12 @@ function Post({ post }) {
       </div>
     );
   }
+
   return (
     <Link to={`/${post._id}`}>
       <div className="flex flex-col basis-1/4 flex-grow">
         <div
-          className={post.imgUrl ? "flex rouded-sm h-80" : "flex rounded-sm"}
+          className={post.imgUrl ? "flex rounded-sm h-80" : "flex rounded-sm"}
         >
           {post.imgUrl && (
             <img
@@ -57,5 +58,27 @@ function Post({ post }) {
     </Link>
   );
 }
+
+Post.defaultProps = {
+  post: null,
+};
+
+Post.propTypes = {
+  post: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    imgUrl: PropTypes.string,
+    username: PropTypes.string.isRequired,
+    createdAt: PropTypes.instanceOf(Date).isRequired,
+    title: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    views: PropTypes.number.isRequired,
+    comments: PropTypes.arrayOf(
+      PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        comment: PropTypes.string.isRequired,
+      })
+    ),
+  }),
+};
 
 export default Post;

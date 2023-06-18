@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React from "react";
+import PropTypes from "prop-types";
 
 function Comment({ cmt }) {
   const avatar = cmt.comment.trim().toUpperCase().split("").slice(0, 2);
@@ -12,5 +12,11 @@ function Comment({ cmt }) {
     </div>
   );
 }
+
+Comment.propTypes = {
+  cmt: PropTypes.shape({
+    comment: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default Comment;
